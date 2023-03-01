@@ -13,19 +13,19 @@
           {{ scope.$index }}
         </template>
       </el-table-column>
-      <el-table-column label="Title">
+      <el-table-column width="110" label="目的地">
         <template slot-scope="scope">
-          {{ scope.row.title }}
+          {{ scope.row.destination }}
         </template>
       </el-table-column>
-      <el-table-column label="Author" width="110" align="center">
+      <el-table-column label="同行人" width="160" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.author }}</span>
+          <span>{{ scope.row.partnerInfo }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Pageviews" width="110" align="center">
+      <el-table-column label="计划"  align="center">
         <template slot-scope="scope">
-          {{ scope.row.pageviews }}
+          {{ scope.row.plan }}
         </template>
       </el-table-column>
       <el-table-column class-name="status-col" label="Status" width="110" align="center">
@@ -33,10 +33,33 @@
           <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="created_at" label="Display_time" width="200">
+      <el-table-column align="center" prop="created_at" label="创建时间" width="200">
         <template slot-scope="scope">
           <i class="el-icon-time" />
-          <span>{{ scope.row.display_time }}</span>
+          <span>{{ scope.row.createTime }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="created_at" label="更新时间" width="200">
+        <template slot-scope="scope">
+          <i class="el-icon-time" />
+          <span>{{ scope.row.updateTime }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="created_at" label="预计回家时间" width="200">
+        <template slot-scope="scope">
+          <i class="el-icon-time" />
+          <span>{{ scope.row.estimatedHomeTime }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="created_at" label="实际回家时间" width="200">
+        <template slot-scope="scope">
+          <i class="el-icon-time" />
+          <span>{{ scope.row.realHomeTime }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="备注" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.remark }}
         </template>
       </el-table-column>
     </el-table>
@@ -44,7 +67,7 @@
 </template>
 
 <script>
-import { getList } from '@/api/table'
+import { getGoOutList } from '@/api/table'
 
 export default {
   filters: {
@@ -68,9 +91,14 @@ export default {
   },
   methods: {
     fetchData() {
+      // this.listLoading = true
+      // getList().then(response => {
+      //   this.list = response.data.items
+      //   this.listLoading = false
+      // })
       this.listLoading = true
-      getList().then(response => {
-        this.list = response.data.items
+      getGoOutList({ isGoHome: true }).then(response => {
+        this.list = response.data
         this.listLoading = false
       })
     }
