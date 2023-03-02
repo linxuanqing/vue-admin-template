@@ -5,6 +5,7 @@ import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en' // lang i18n
+import moment from 'moment'
 
 import '@/styles/index.scss' // global css
 
@@ -34,6 +35,18 @@ Vue.use(ElementUI, { locale })
 // Vue.use(ElementUI)
 
 Vue.config.productionTip = false
+Vue.filter('formatDateTime', function(val) {
+  if (val) {
+    // npm install moment --save   # npm
+    return moment(val).format('YYYY-MM-DD HH:mm:ss')
+  }
+})
+Vue.filter('formatDate', function(val) {
+  if (val) {
+    // npm install moment --save   # npm
+    return moment(val).format('YYYY-MM-DD')
+  }
+})
 
 new Vue({
   el: '#app',
