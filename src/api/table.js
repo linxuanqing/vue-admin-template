@@ -7,11 +7,3 @@ export function getList(params) {
     params
   })
 }
-
-export function getGoOutList(params) {
-  return request({
-    url: 'http://127.0.0.1:8082/goOut/list',
-    method: 'get',
-    params
-  })
-}
