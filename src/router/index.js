@@ -56,17 +56,23 @@ export const constantRoutes = [
   },
 
   {
-    path: '/example',
+    path: '/goOut',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
+    redirect: '/goOut/goOut',
+    name: '外出管理',
+    meta: { title: '外出管理', icon: 'el-icon-s-help' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        path: 'goOut',
+        name: '外出管理',
+        component: () => import('@/views/goOut/index'),
+        meta: { title: '外出管理', icon: 'table' }
+      },
+      {
+        path: 'contact',
+        name: '联系人',
+        component: () => import('@/views/goOut/contact'),
+        meta: { title: '联系人', icon: 'table' }
       },
       {
         path: 'tree',
