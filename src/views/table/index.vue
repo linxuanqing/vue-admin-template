@@ -100,14 +100,49 @@
           <el-button
             link
             size="small"
-            @click="handleUpdate(row)"
+            @click="popUpViewDialog(row)"
           >查看</el-button>
-          <el-button link size="small" type="primary" @click="popUpGoHomeDialog(row)">已到家</el-button>
+          <el-button v-if="!row.isGoHome" link size="small" type="primary" @click="popUpGoHomeDialog(row)">已到家</el-button>
           <el-button link size="small" @click="handleUpdate(row)">编辑</el-button>
           <el-button link type="danger" size="small" @click="deleteGoOutDialog(row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
+
+    <el-dialog title="查看" :visible.sync="viewDialog">
+      <el-form ref="viewDialogRef" :model="temp" label-position="left" label-width="120px" style="width: 800px; margin-left:50px;">
+        <el-form-item label="目的地" prop="realHomeTime">
+          <div>{{ temp.destination }}</div>
+        </el-form-item>
+        <el-form-item label="同行人" prop="partnerInfo">
+          <div>{{ temp.partnerInfo }}</div>
+        </el-form-item>
+        <el-form-item label="出行计划" prop="plan">
+          <div>{{ temp.destination }}</div>
+        </el-form-item>
+        <el-form-item label="是否已回家" prop="isGoHome">
+          <div v-if="temp.isGoHome">是</div>
+          <div v-if="!temp.isGoHome">否</div>
+        </el-form-item>
+        <el-form-item label="预计回家时间" prop="estimatedHomeTime">
+          <div>{{ temp.estimatedHomeTime }}</div>
+        </el-form-item>
+        <el-form-item label="实际回家时间" prop="realHomeTime">
+          <div>{{ temp.realHomeTime }}</div>
+        </el-form-item>
+        <el-form-item label="备注">
+          <div>{{ temp.remark }}</div>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="viewDialog = false">
+          返回
+        </el-button>
+        <el-button type="primary" @click="viewToUpdate(temp)">
+          编辑
+        </el-button>
+      </div>
+    </el-dialog>
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="right" label-width="120px" style="width: 800px; margin-left:50px;">
@@ -227,7 +262,8 @@ export default {
         title: undefined,
         type: undefined,
         sort: '+id'
-      }
+      },
+      viewDialog: false
     }
   },
   created() {
@@ -308,7 +344,7 @@ export default {
     popUpGoHomeDialog(row) {
       this.dialogStatus = 'goHomeNow'
       this.goHomeDialog = true
-      this.temp = row
+      this.temp = Object.assign({}, row)
       this.temp.realHomeTime = new Date()
     },
     goHomeNow() {
@@ -350,6 +386,14 @@ export default {
           message: '已取消删除'
         })
       })
+    },
+    popUpViewDialog(row) {
+      this.viewDialog = true
+      this.temp = row
+    },
+    viewToUpdate(row) {
+      this.handleUpdate(row)
+      this.viewDialog = false
     }
   }
 }
